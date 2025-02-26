@@ -1,0 +1,7 @@
+# syntax=docker/dockerfile:1
+
+FROM charystag/development_base:latest
+
+RUN apt -y install python3
+
+RUN ln -s -T /usr/bin/python3.12 /usr/bin/python

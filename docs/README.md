@@ -1,3 +1,5 @@
+> :fr: French version [here](./README.fr.md)
+
 # Development container images
 
 In this repository, I'll store and share some 
@@ -49,6 +51,8 @@ the following tools:
 - [vim](https://www.vim.org/) for editing *Did I mention that I use vim?*
 - [less](http://www.greenwoodsoftware.com/less/) for easy file viewing *Less is way more than [more](https://www.man7.org/linux/man-pages/man1/more.1.html)*
 - [tmux](https://github.com/tmux/tmux/wiki) for multiplexing *like inception, but with windows*
+- [man](https://www.man7.org/linux/man-pages/man1/man.1.html) *The only* ***real*** *man*
+- [git](https://git-scm.com/) *Because I also commit from my containers*
 
 So I install them in my base image and I just have to build my other images using that one
 
@@ -62,3 +66,8 @@ docker pull charystag/development_base
 
 which will pull the image for you to use in subsequent images
 or to run containers from
+
+## Images list
+
+- `base` which contains `curl`, `vim`, `less`, `man`
+- `python_base` which contains only the python interpreter
