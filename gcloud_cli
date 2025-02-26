@@ -1,0 +1,18 @@
+# syntax=docker/dockerfile:1
+
+FROM charystag/python_base
+
+ARG architecture=arm #architecture can either be "arm", "x86_64" or "x86"
+#run: docker build --build-arg architecture=[your_architecture] -t [your_tag] -f gcloud_cli .
+
+WORKDIR /install
+
+RUN curl -O "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-${architecture}.tar.gz"
+
+RUN tar -xvf "google-cloud-cli-linux-${architecture}.tar.gz"
+
+WORKDIR ./google-cloud-sdk
+
+RUN ./install.sh --usage-reporting false --path-update true --rc-path /root/.zshrc -q
+
+RUN rm "../google-cloud-cli-linux-${architecture}.tar.gz"

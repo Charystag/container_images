@@ -70,4 +70,5 @@ or to run containers from
 ## Images list
 
 - `base` which contains `curl`, `vim`, `less`, `man`
-- `python_base` which contains only the python interpreter
+- `python_base` [based on: `base`] which contains only the python interpreter
+- `gcloud_cli` [based on: `python_base`] which contains the google cloud cli
