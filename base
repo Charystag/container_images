@@ -18,5 +18,7 @@ COPY ./scripts/zsh-plugins.sed plugins
 
 RUN  sed -i -f plugins $HOME/.zshrc
 
+RUN chsh -s "$(which zsh)"
+
 
 CMD ["zsh"]
