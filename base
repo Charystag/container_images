@@ -1,13 +1,22 @@
+# syntax=docker/dockerfile:1
+
 FROM ubuntu:latest
  
 RUN apt -y update && apt -y upgrade
 
-RUN apt -y install curl zsh less tmux vim
+RUN apt -y install curl zsh git
 
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-RUN sed
+RUN apt -y install less tmux vim man
+
+RUN yes | unminimize
 
 WORKDIR /app
+
+COPY ./scripts/zsh-plugins.sed plugins
+
+RUN  sed -i -f plugins $HOME/.zshrc
+
 
 CMD ["zsh"]
