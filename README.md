@@ -51,3 +51,17 @@ the following tools:
 - [tmux](https://github.com/tmux/tmux/wiki) for multiplexing *like inception, but with windows*
 
 So I install them in my base image and I just have to build my other images using that one
+
+## Instantiating containers from the base
+
+If you're not willing to build the base image yourself, you can run:
+
+```bash
+docker pull charystag/development_base
+```
+
+which will pull the image for you to use in subsequent images
+or to run containers from
+
+> :warning: For now, I can't manage to pull my image from dockerhub with `podman`
+> however I'll update the `README` when I find the fix
