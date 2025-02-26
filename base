@@ -1,0 +1,13 @@
+FROM ubuntu:latest
+ 
+RUN apt -y update && apt -y upgrade
+
+RUN apt -y install curl zsh less tmux vim
+
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+RUN sed
+
+WORKDIR /app
+
+CMD ["zsh"]
