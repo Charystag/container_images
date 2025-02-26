@@ -62,6 +62,3 @@ docker pull charystag/development_base
 
 which will pull the image for you to use in subsequent images
 or to run containers from
-
-> :warning: For now, I can't manage to pull my image from dockerhub with `podman`
-> however I'll update the `README` when I find the fix
