@@ -16,3 +16,5 @@ WORKDIR ./google-cloud-sdk
 RUN ./install.sh --usage-reporting false --path-update true --rc-path /root/.zshrc -q
 
 RUN rm "../google-cloud-cli-linux-${architecture}.tar.gz"
+
+WORKDIR /app
