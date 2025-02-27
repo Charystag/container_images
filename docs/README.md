@@ -1,9 +1,14 @@
 > :fr: French version [here](./README.fr.md)
 
-# Development container images
+# Container images
 
 In this repository, I'll store and share some 
 custom images I make to develop locally on containers
+
+> :bulb: Update, I will also put some production
+> images I use with my own scripts
+
+## Development images
 
 The goal is to enable development without installing
 extra software -- just bind the container to 
@@ -17,11 +22,23 @@ Even though none of them are named `Dockerfile`, all
 the files in this repository (except for the scripts)
 are valid `Dockerfile`s
 
+## Production images
+
+These are lightweight container images, without 
+all the fuss of the development images but with
+only the dependencies needed for my scripts to 
+work
+
 ## How to run the images
 
 You can build the images by running (I'll be using 
 docker for common understanding, however it works 
 the exact same with podman):
+
+> :rotating_light: Make sure to run all the docker 
+> commands from the root of the repository. They 
+> may use other folders (thus disallowing them to 
+> work if those are not found)
 
 ```bash
 docker build -t [your_image_name] -f path_to_dockerfile .

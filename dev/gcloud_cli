@@ -18,3 +18,9 @@ RUN ./install.sh --usage-reporting false --path-update true --rc-path /root/.zsh
 RUN rm "../google-cloud-cli-linux-${architecture}.tar.gz"
 
 WORKDIR /app
+
+COPY ./aliases/gcloud.zsh .
+
+RUN cat gcloud.zsh >> "$HOME/.zshrc"
+
+RUN rm gcloud.zsh

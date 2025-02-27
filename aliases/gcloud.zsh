@@ -1,0 +1,6 @@
+alias gs="gcloud storage"
+alias gsb="gcloud storage buckets"
+alias gservice="gcloud auth activate-service-account"
+alias gp="gcloud projects"
+alias gpl="gcloud projects list"
+alias gh="gcloud help"
