@@ -72,3 +72,15 @@ or to run containers from
 - `base` which contains `curl`, `vim`, `less`, `man`
 - `python_base` [based on: `base`] which contains only the python interpreter
 - `gcloud_cli` [based on: `python_base`] which contains the google cloud cli
+
+## Note for non `x86_*` architectures
+
+You'll likely be unable to build the subsequent images if you're not running
+on an `arm` processor. So you have to do the following, for each image you'd
+like to build
+
+```bash
+docker build -t [you_tag] -f base .
+```
+and then for each image, replace `charystag/base:latest` with 
+`localhost/[your_tag]` before manually rebuilding the image
