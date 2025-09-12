@@ -1,0 +1,24 @@
+# syntax=docker/dockerfile:1
+
+FROM ubuntu:latest
+ 
+RUN apt -y update && apt -y upgrade && \
+	apt -y install curl zsh git neovim \
+	less tmux vim man \
+	gcc gdb strace
+
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+RUN yes | unminimize
+
+WORKDIR /app
+
+COPY ./scripts/zsh-plugins.sed plugins
+
+RUN  sed -i -f plugins $HOME/.zshrc
+
+RUN rm plugins
+
+RUN chsh -s "$(which zsh)"
+
+CMD ["zsh"]
