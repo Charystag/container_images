@@ -1,7 +1,38 @@
 # syntax=docker/dockerfile:1
 
-FROM charystag/development_base:latest
+FROM python:3.13-bookworm
 
-RUN apt -y install python3
+RUN apt-get -y update && apt -y upgrade && apt-get -y install \
+        bat \
+        curl \
+        git \
+        less \
+        man \
+        neovim \
+        tmux \
+        zsh
 
-RUN ln -s -T /usr/bin/python3.12 /usr/bin/python
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+RUN mkdir -p "$HOME/.local/bin"
+
+RUN ln -s /usr/bin/batcat ~/.local/bin/bat
+
+ENV BAT_THEME="Coldark-Cold"
+
+WORKDIR /app
+
+RUN cat <<PLUGINS >plugins
+73c\
+plugins=(git colored-man-pages)
+PLUGINS
+
+RUN  sed -i -f plugins "$HOME/.zshrc"
+
+RUN rm plugins
+
+RUN echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.zshrc"
+
+RUN chsh -s "$(which zsh)"
+
+CMD ["zsh"]

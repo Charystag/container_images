@@ -3,6 +3,7 @@
 FROM debian:latest
 
 RUN apt-get -y update && apt -y upgrade && apt-get -y install \
+        bat \
         curl \
         git \
         less \
@@ -13,6 +14,12 @@ RUN apt-get -y update && apt -y upgrade && apt-get -y install \
 
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
+RUN mkdir -p "$HOME/.local/bin"
+
+RUN ln -s /usr/bin/batcat ~/.local/bin/bat
+
+ENV BAT_THEME="Coldark-Cold"
+
 WORKDIR /app
 
 RUN cat <<PLUGINS >plugins
@@ -20,9 +27,64 @@ RUN cat <<PLUGINS >plugins
 plugins=(git colored-man-pages)
 PLUGINS
 
-RUN  sed -i -f plugins $HOME/.zshrc
+RUN  sed -i -f plugins "$HOME/.zshrc"
 
 RUN rm plugins
+
+RUN mkdir -p "$HOME/.config/nvim"
+
+RUN cat <<INIT >"$HOME/.config/nvim/init.lua"
+-- Filetypes
+vim.cmd("filetype on")
+
+-- Tabs & indentation
+vim.opt.expandtab = true
+vim.opt.autoindent = true
+vim.opt.cindent = true
+vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.number = true
+
+-- Disable syntax highlighting
+vim.cmd("syntax off")
+
+-- C indent options
+vim.opt.cinoptions = "(0"
+
+-- YAML indentation
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+  pattern = { "*.yml", "*.yaml" },
+  callback = function()
+    vim.opt.tabstop = 4
+    vim.opt.softtabstop = 2
+    vim.opt.shiftwidth = 2
+    vim.opt.expandtab = true
+  end,
+})
+
+-- Makefiles: allow tabs
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "make", "automake" },
+  callback = function()
+    vim.opt.expandtab = false
+  end,
+})
+
+-- Highlight trailing whitespace and tabs
+vim.cmd("highlight ForbiddenWhitespace ctermbg=red guibg=red")
+vim.cmd([[match ForbiddenWhitespace /\s\+$\|\t/]])
+
+-- Do not highlight trailing spaces on the line being edited
+vim.api.nvim_create_autocmd("InsertEnter", {
+  pattern = "*",
+  callback = function()
+    vim.cmd([[match ForbiddenWhitespace /\t\|\s\+\%#\@<!$/]])
+  end,
+})
+INIT
+
+RUN echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.zshrc"
 
 RUN chsh -s "$(which zsh)"
 
