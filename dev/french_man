@@ -34,7 +34,7 @@ RUN cat <<EP > entrypoint.sh
 export LC_ALL="fr_FR.UTF-8"
 . colored_man
 man "\$@"
-bash
+echo bonjour>/dev/null
 EP
 
 ENTRYPOINT ["bash", "entrypoint.sh"]
