@@ -1,0 +1,41 @@
+FROM debian:bookworm
+
+WORKDIR /app
+
+RUN apt -y update && apt -y upgrade && apt -y install \
+    gcc \
+    less \
+    locales \
+    man \
+    manpages \
+    manpages-dev \
+    manpages-fr \
+    manpages-fr-dev
+
+RUN cat <<COLORED_MAN > colored_man
+man() {
+LESS_TERMCAP_md=$'\e[01;31m' \
+LESS_TERMCAP_me=$'\e[0m' \
+LESS_TERMCAP_us=$'\e[01;32m' \
+LESS_TERMCAP_ue=$'\e[0m' \
+LESS_TERMCAP_so=$'\e[45;93m' \
+LESS_TERMCAP_se=$'\e[0m' \
+command man "\$@"
+}
+COLORED_MAN
+
+RUN echo ". /app/colored_man" >> $HOME/.bashrc
+
+RUN sed -i '239s/#//' /etc/locale.gen
+
+RUN locale-gen
+
+RUN cat <<EP > entrypoint.sh
+export LC_ALL="fr_FR.UTF-8"
+. colored_man
+man "\$@"
+bash
+EP
+
+ENTRYPOINT ["bash", "entrypoint.sh"]
+CMD ["man"]
